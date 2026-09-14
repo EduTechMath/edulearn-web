@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduLearn | Matematika Kelas 11</title>
+  <meta name="description" content="Website pembelajaran Matematika Kelas 11 dengan materi PK dan PM, pembahasan detail, latihan soal, mode tanpa waktu, dan grafik perkembangan." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="EduLearn home">
+        <span class="brand-mark">E</span>
+        <span>EduLearn</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#materi">Materi</a>
+        <a href="#latihan">Latihan</a>
+        <a href="#progress">Perkembangan</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="#materi">Materi</a>
+        <a class="btn btn-primary" href="subtest.html">Mulai Belajar</a>
+      </div>
+
+      <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Matematika Kelas 11</div>
+          <h1>Pembelajaran lengkap PK dan PM untuk memahami, berlatih, dan berkembang.</h1>
+          <p>
+            EduLearn hadir sebagai platform belajar matematika yang memisahkan materi PK dan PM,
+            lengkap dengan pembahasan materi, soal per subtest, ujian semua materi, serta grafik perkembangan.
+          </p>
+
+          <div class="cta-group">
+            <a class="btn btn-primary" href="#materi">Lihat Materi</a>
+            <a class="btn btn-secondary" href="subtest.html">Mulai Latihan</a>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric">
+              <strong>2</strong>
+              <span>jalur utama</span>
+            </div>
+            <div class="metric">
+              <strong>3</strong>
+              <span>tingkat kesulitan</span>
+            </div>
+            <div class="metric">
+              <strong>1</strong>
+              <span>semua materi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="panel-card">
+            <div class="panel-header">
+              <span>Ringkasan belajar</span>
+              <span class="panel-status">Aktif</span>
+            </div>
+
+            <div class="promo-preview">
+              <span class="promo-tag">Materi favorit</span>
+              <div class="promo-title">PK dan PM Kelas 11</div>
+              <div class="promo-meta">
+                <span>Subtest terstruktur</span>
+                <span>Ujian gabungan</span>
+              </div>
+            </div>
+
+            <div class="progress-ring" aria-label="Overview progress">
+              <div class="progress-content">
+                <strong id="overviewPercent">0%</strong>
+                <small>Progress</small>
+              </div>
+            </div>
+
+            <ul class="schedule">
+              <li><span>1. Pilih materi PK / PM</span><strong>Siap</strong></li>
+              <li><span>2. Baca pembahasan detail</span><strong>Siap</strong></li>
+              <li><span>3. Kerjakan latihan dan evaluasi</span><strong>Siap</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="materi">
+      <div class="container">
+        <div class="section-header center">
+          <p>Materi Pilihan</p>
+          <h2>Pilih kelompok materi belajar</h2>
+        </div>
+
+        <div class="subject-switch">
+          <button class="subject-tab active" data-subject="PK" type="button">PK</button>
+          <button class="subject-tab" data-subject="PM" type="button">PM</button>
+        </div>
+
+        <div class="topic-layout">
+          <div class="topic-list-panel">
+            <div id="topicGrid" class="topic-grid"></div>
+          </div>
+
+          <aside id="topicDetail" class="topic-detail" aria-live="polite"></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="latihan">
+      <div class="container">
+        <div class="section-header center">
+          <p>Latihan Soal</p>
+          <h2>Atur mode latihan sesuai kebutuhan</h2>
+        </div>
+
+        <div class="quiz-box">
+          <div class="quiz-controls">
+            <div class="field-group compact">
+              <label for="topicSelect">Subtest</label>
+              <select id="topicSelect"></select>
+            </div>
+
+            <div class="field-group compact">
+              <label>Tingkat kesulitan</label>
+              <div class="difficulty-group">
+                <button class="difficulty-btn active" data-difficulty="mudah" type="button">Mudah</button>
+                <button class="difficulty-btn" data-difficulty="sedang" type="button">Sedang</button>
+                <button class="difficulty-btn" data-difficulty="susah" type="button">Susah</button>
+              </div>
+            </div>
+
+            <div class="field-group compact">
+              <label>Waktu</label>
+              <div class="timer-adjust">
+                <button id="decreaseTime" type="button">−</button>
+                <input id="timerMinutes" type="number" min="1" max="60" value="10" />
+                <button id="increaseTime" type="button">+</button>
+              </div>
+            </div>
+
+            <label class="toggle-row">
+              <input id="untimedMode" type="checkbox" />
+              <span>Mode tanpa waktu</span>
+            </label>
+          </div>
+
+          <div class="quiz-actions">
+            <a class="btn btn-primary" href="subtest.html">Buka Halaman Subtest</a>
+            <button id="startExam" class="btn btn-secondary" type="button">Ujian Semua Materi</button>
+          </div>
+
+          <div id="quizArea" class="quiz-area hidden"></div>
+          <div id="resultsArea" class="results-area hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section progress-section" id="progress">
+      <div class="container">
+        <div class="section-header center">
+          <p>Grafik Perkembangan</p>
+          <h2>Perhatikan efisiensi dan hasil setiap subtest</h2>
+        </div>
+
+        <div id="progressOverview" class="progress-overview"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© <span id="current-year">2026</span> EduLearn. Semua hak dilindungi.</div>
+      <div class="footer-links">
+        <a href="#materi">Materi</a>
+        <a href="#latihan">Latihan</a>
+        <a href="#progress">Perkembangan</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
