@@ -30,59 +30,62 @@
           ]
         }
       ],
+      questionPool: [
+        ['Nilai a, b, dan c dari f(x) = 2x² - 5x + 3 berturut-turut adalah ...', ['2, 5, 3', '2, -5, 3', '-2, -5, 3', '2, -5, -3'], 1, 'Bentuk umum ax² + bx + c, sehingga a=2, b=-5, dan c=3.'],
+        ['Diketahui f(x) = 6 - x - x². Nilai koefisien a dan c adalah ...', ['a=1, c=6', 'a=-1, c=-1', 'a=-1, c=6', 'a=6, c=-1'], 2, 'Urutkan menjadi -x² - x + 6, sehingga a=-1 dan c=6.'],
+        ['Jika f(x) = x(x - 4) + 5 diubah ke bentuk umum ax² + bx + c, nilai b adalah ...', ['-4', '4', '5', '1'], 0, 'Kembangkan menjadi x² - 4x + 5, sehingga b=-4.'],
+        ['Dari fungsi f(x) = 3x² + 8, nilai a + b + c adalah ...', ['11', '8', '3', '0'], 0, 'Nilainya a=3, b=0, c=8, jadi a+b+c=11.'],
+        ['Jika f(x) = -2x² + 4x - 1, nilai 2a - b + c adalah ...', ['-9', '-7', '-1', '1'], 0, 'Substitusi a=-2, b=4, c=-1: -4-4-1=-9.'],
+        ['Bentuk umum dari f(x) = (x - 3)² + 2 adalah ...', ['x² - 6x + 11', 'x² - 6x + 7', 'x² + 6x + 11', 'x² - 9x + 2'], 0, 'x²-6x+9+2 = x²-6x+11.'],
+        ['Nilai f(3) untuk f(x) = x² - 2x + 5 adalah ...', ['6', '8', '10', '12'], 1, 'f(3)=9-6+5=8.'],
+        ['Jika f(x) = 2x² - kx + 1 dan f(2) = 5, nilai k adalah ...', ['1', '2', '3', '4'], 1, '8-2k+1=5, maka 2k=4 dan k=2.'],
+        ['Diketahui f(x) = ax² + 3x - 4. Jika f(-1) = -2, nilai a adalah ...', ['3', '4', '5', '6'], 2, 'a-3-4=-2, sehingga a=5.'],
+        ['Bayangan dari x=-3 oleh f(x) = -x² + 4x + 2 adalah ...', ['-19', '-5', '1', '19'], 0, 'f(-3)=-9-12+2=-19.'],
+        ['Nilai diskriminan dari x² - 6x + 9 = 0 adalah ...', ['-36', '0', '12', '36'], 1, 'D=b²-4ac=36-36=0.'],
+        ['Nilai diskriminan f(x) = 2x² - 3x - 2 adalah ...', ['7', '16', '25', '32'], 2, 'D=(-3)²-4(2)(-2)=9+16=25.'],
+        ['Jika f(x)=x²+4x+c memiliki D=0, nilai c adalah ...', ['2', '4', '8', '16'], 1, '16-4c=0, jadi c=4.'],
+        ['Nilai p agar f(x)=px²-4x+2 mempunyai diskriminan 16 adalah ...', ['0', '1', '2', '4'], 0, '16-8p=16, sehingga p=0.'],
+        ['Grafik f(x)=x²-2x+4 terhadap sumbu-X adalah ...', ['Memotong dua titik', 'Menyinggung', 'Tidak memotong', 'Memotong tiga titik'], 2, 'D=4-16=-12<0, jadi tidak memotong sumbu-X.'],
+        ['Jumlah akar x₁+x₂ dari x²-7x+10=0 adalah ...', ['-10', '-7', '7', '10'], 2, 'Jumlah akar=-b/a=7.'],
+        ['Hasil kali akar 2x²+5x-3=0 adalah ...', ['-3/2', '-5/2', '3/2', '5/2'], 0, 'Hasil kali akar=c/a=-3/2.'],
+        ['Jenis akar x²+3x+5=0 adalah ...', ['Real berbeda', 'Real kembar', 'Rasional', 'Imajiner/tidak real'], 3, 'D=9-20=-11<0, sehingga akarnya tidak real.'],
+        ['Batasan m agar f(x)=x²-mx+9 menyinggung sumbu-X adalah ...', ['m=6', 'm=-6', 'm=6 atau m=-6', 'm=0'], 2, 'D=m²-36=0, maka m=±6.'],
+        ['Syarat k agar f(x)=3x²-6x+k tidak memotong sumbu-X adalah ...', ['k<3', 'k>3', 'k<-3', 'k>-3'], 1, 'D=36-12k<0, jadi k>3.'],
+        ['Akar-akar x²-9=0 adalah ...', ['x=3 saja', 'x=-3 atau x=3', 'x=9 atau x=-9', 'x=0'], 1, 'x²=9, maka x=±3.'],
+        ['Pembuat nol f(x)=x²-5x+6 adalah ...', ['x=-2 atau -3', 'x=2 atau 3', 'x=1 atau 6', 'x=-1 atau -6'], 1, 'x²-5x+6=(x-2)(x-3).'],
+        ['Akar-akar x²+7x+12=0 adalah ...', ['3 dan 4', '-3 dan -4', '-2 dan -6', '2 dan 6'], 1, 'Faktornya (x+3)(x+4), jadi akarnya -3 dan -4.'],
+        ['Akar-akar x²-2x-8=0 adalah ...', ['4 dan -2', '-4 dan 2', '8 dan -1', '-8 dan 1'], 0, 'Faktornya (x-4)(x+2).'],
+        ['Nilai x yang memenuhi 2x²-7x+3=0 adalah ...', ['3 atau 1/2', '-3 atau -1/2', '3 atau 2', '7 atau 3'], 0, 'Faktornya (2x-1)(x-3), jadi x=1/2 atau 3.'],
+        ['Jika salah satu akar x²+bx-12=0 adalah x=3, nilai b adalah ...', ['1', '2', '3', '4'], 0, '9+3b-12=0, sehingga b=1.'],
+        ['Pembuat nol f(x)=3x²-12x adalah ...', ['x=0 dan x=4', 'x=0 dan x=-4', 'x=3 dan x=12', 'x=4 saja'], 0, '3x(x-4)=0, jadi x=0 atau 4.'],
+        ['Jika akar x²-8x+15=0 adalah p dan q, nilai p²+q² adalah ...', ['34', '49', '64', '94'], 0, 'p²+q²=(p+q)²-2pq=64-30=34.'],
+        ['Himpunan penyelesaian x²+6x+9=0 adalah ...', ['{-3,3}', '{-3}', '{3}', '{-9,1}'], 1, '(x+3)²=0, sehingga himpunannya {-3}.'],
+        ['Titik potong f(x)=x²-x-6 terhadap sumbu-X adalah ...', ['(3,0) dan (-2,0)', '(-3,0) dan (2,0)', '(6,0) dan (-1,0)', '(0,-6)'], 0, 'x²-x-6=(x-3)(x+2).'],
+        ['Persamaan sumbu simetri f(x)=x²-6x+8 adalah ...', ['x=-6', 'x=-3', 'x=3', 'x=6'], 2, 'x=-b/(2a)=6/2=3.'],
+        ['Sumbu simetri f(x)=-2x²+8x-5 adalah ...', ['x=-2', 'x=2', 'x=4', 'x=8'], 1, 'x=-8/(-4)=2.'],
+        ['Koordinat titik puncak f(x)=x²-4x+3 adalah ...', ['(2,-1)', '(-2,15)', '(2,1)', '(4,3)'], 0, 'x=2 dan f(2)=-1, jadi (2,-1).'],
+        ['Nilai minimum f(x)=x²+2x-8 adalah ...', ['-9', '-8', '-1', '1'], 0, 'Titik puncak berada di x=-1 dan f(-1)=-9.'],
+        ['Koordinat titik balik f(x)=-x²+6x-5 adalah ...', ['(3,4)', '(-3,-32)', '(3,-4)', '(6,-5)'], 0, 'x=3 dan f(3)=4.'],
+        ['Jika titik puncak f(x)=x²-bx+5 berada di x=3, nilai b adalah ...', ['3', '6', '9', '12'], 1, 'b/(2)=3, maka b=6.'],
+        ['Koordinat titik puncak f(x)=2x²+4x+1 adalah ...', ['(-1,-1)', '(1,7)', '(-1,1)', '(-2,1)'], 0, 'x=-1 dan f(-1)=-1.'],
+        ['Grafik ax²+12x+9 memiliki sumbu simetri x=3. Nilai a adalah ...', ['-2', '-1', '1', '2'], 0, '-12/(2a)=3, sehingga a=-2.'],
+        ['Nilai minimum f(x)=3x²-12x+7 adalah ...', ['-5', '-2', '2', '7'], 0, 'x=2 dan f(2)=-5.'],
+        ['Titik balik maksimum f(x)=-2x²-8x+3 adalah ...', ['(-2,11)', '(2,-21)', '(-2,3)', '(4,-61)'], 0, 'x=-2 dan f(-2)=11.'],
+        ['Arah keterbukaan f(x)=-x²+3x-2 adalah ...', ['Ke atas', 'Ke bawah', 'Ke kanan', 'Ke kiri'], 1, 'a=-1<0, sehingga parabola terbuka ke bawah.'],
+        ['Titik potong f(x)=x²-4x-5 terhadap sumbu-Y adalah ...', ['(0,5)', '(0,-5)', '(-5,0)', '(5,0)'], 1, 'Titik potong sumbu-Y diperoleh saat x=0, yaitu (0,-5).'],
+        ['Parabola 2x²+bx+c memotong sumbu-Y di (0,4). Nilai c adalah ...', ['2', '4', '-4', '8'], 1, 'Saat x=0, f(0)=c=4.'],
+        ['Titik potong f(x)=3x²+5x-2 dengan sumbu-Y adalah ...', ['(0,-2)', '(0,3)', '(-2,0)', '(0,5)'], 0, 'Saat x=0, y=-2.'],
+        ['Ciri grafik jika a>0 dan D>0 adalah ...', ['Terbuka bawah', 'Terbuka atas dan memotong dua titik', 'Terbuka atas dan menyinggung', 'Terbuka bawah dan menyinggung'], 1, 'a>0 berarti terbuka atas dan D>0 berarti memotong dua titik.'],
+        ['Posisi grafik jika a<0 dan D<0 adalah ...', ['Seluruhnya di atas', 'Seluruhnya di bawah', 'Menyinggung dari bawah', 'Memotong dua titik'], 1, 'a<0 dan tidak punya akar real, sehingga grafik seluruhnya di bawah sumbu-X.'],
+        ['Sifat f(x)=(x-1)²-4 adalah ...', ['Terbuka bawah, puncak (1,-4)', 'Terbuka atas, puncak (1,-4)', 'Terbuka atas, puncak (-1,4)', 'Terbuka bawah, puncak (-1,-4)'], 1, 'Bentuk puncak menunjukkan puncak (1,-4) dan a=1.'],
+        ['Fungsi dengan titik puncak (2,-1) dan melalui (0,3) adalah ...', ['x²-4x+3', 'x²+4x+3', '2x²-8x+3', 'x²-2x+3'], 0, 'Bentuk (x-2)²-1 = x²-4x+3.'],
+        ['Fungsi yang memotong sumbu-X di (1,0) dan (3,0), serta melalui (0,3) adalah ...', ['x²-4x+3', 'x²+4x-3', '-x²+4x-3', '2x²-8x+6'], 0, 'Akar 1 dan 3 memberi (x-1)(x-3)=x²-4x+3.'],
+        ['Tinggi maksimum h(t)=40t-5t² adalah ...', ['40 meter', '80 meter', '100 meter', '160 meter'], 1, 'Titik puncak t=4, sehingga h(4)=160-80=80 meter.']
+      ],
       questions: {
-        mudah: [
-          {
-            prompt: 'Akar-akar dari x² - 5x + 6 = 0 adalah ...',
-            options: ['1 dan 6', '2 dan 3', '3 dan 4', '1 dan 5'],
-            answer: 1,
-            explanation: 'x² - 5x + 6 = (x - 2)(x - 3), sehingga akar-akarnya 2 dan 3.'
-          },
-          {
-            prompt: 'Nilai a, b, c dari f(x) = 2x² - 3x + 5 berturut-turut adalah ...',
-            options: ['2, -3, 5', '2, 3, 5', '-2, -3, 5', '2, -3, -5'],
-            answer: 0,
-            explanation: 'Bentuk umum ax² + bx + c, jadi a = 2, b = -3, c = 5.'
-          }
-        ],
-        sedang: [
-          {
-            prompt: 'Titik puncak dari f(x) = x² - 6x + 8 adalah ...',
-            options: ['(2,-4)', '(3,-1)', '(3,1)', '(4,0)'],
-            answer: 1,
-            explanation: 'x_p = -b/(2a) = 6/2 = 3, y_p = 9 - 18 + 8 = -1.'
-          },
-          {
-            prompt: 'Diskriminan dari x² - 4x + 4 = 0 adalah ...',
-            options: ['0', '4', '8', '16'],
-            answer: 0,
-            explanation: 'D = b² - 4ac = 16 - 16 = 0.'
-          }
-        ],
-        susah: [
-          {
-            prompt: 'Fungsi kuadrat f(x) = x² - 4x + 3 memotong sumbu x pada titik ...',
-            subPoints: [
-              'Faktorkan persamaan kuadrat',
-              'Tentukan akar-akarnya',
-              'Tuliskan titik potong sumbu x'
-            ],
-            options: ['(1,0) dan (3,0)', '(2,0) dan (3,0)', '(1,0) dan (4,0)', '(0,1) dan (0,3)'],
-            answer: 0,
-            explanation: 'x² - 4x + 3 = (x - 1)(x - 3), jadi titik potong sumbu x adalah (1,0) dan (3,0).'
-          },
-          {
-            prompt: 'Jika fungsi kuadrat f(x) = x² - 2x - 8 mempunyai akar x₁ dan x₂, maka x₁ + x₂ adalah ...',
-            subPoints: [
-              'Gunakan hubungan jumlah akar',
-              'Ingat bentuk ax² + bx + c',
-              'Hitung -b/a'
-            ],
-            options: ['-2', '2', '4', '8'],
-            answer: 1,
-            explanation: 'Jumlah akar pada ax² + bx + c adalah -b/a = 2.'
-          }
-        ]
+        mudah: [],
+        sedang: [],
+        susah: []
       }
     },
     {
@@ -742,8 +745,10 @@ function renderTopicDetail() {
 function renderTopicSelect() {
   if (!elements.topicSelect) return;
 
-  const topicOptions = allTopics.map((topic) => `
-    <option value="${topic.id}">${topic.name}</option>
+  const topicOptions = Object.entries(materialData).map(([subject, topics]) => `
+    <optgroup label="Materi ${subject}">
+      ${topics.map((topic) => `<option value="${topic.id}">${topic.name}</option>`).join('')}
+    </optgroup>
   `).join('');
 
   elements.topicSelect.innerHTML = topicOptions;
@@ -837,34 +842,57 @@ function buildQuestions(mode) {
   const selectedTopic = getTopicById(state.selectedTopicId);
   const questions = [];
 
-  if (mode === 'subtest') {
-    const topicQuestions = selectedTopic.questions[state.difficulty] || [];
+  const addTopicQuestions = (topic) => {
+    if (topic.questionPool) {
+      topic.questionPool.forEach(([prompt, options, answer, explanation]) => {
+        questions.push({
+          prompt,
+          options,
+          answer,
+          explanation,
+          topicId: topic.id,
+          topicName: topic.name
+        });
+      });
+      return;
+    }
+
+    const topicQuestions = topic.questions[state.difficulty] || [];
     topicQuestions.forEach((question) => {
-      questions.push({ ...question, topicId: selectedTopic.id, topicName: selectedTopic.name });
+      questions.push({ ...question, topicId: topic.id, topicName: topic.name });
     });
+  };
+
+  if (mode === 'subtest') {
+    addTopicQuestions(selectedTopic);
   } else {
     allTopics.forEach((topic) => {
-      const topicQuestions = topic.questions[state.difficulty] || [];
-      topicQuestions.forEach((question) => {
-        questions.push({ ...question, topicId: topic.id, topicName: topic.name });
-      });
+      addTopicQuestions(topic);
     });
   }
 
-  return questions
-    .sort(() => Math.random() - 0.5)
-    .slice(0, state.questionCount)
-    .map((question) => ({ ...question, selectedChoice: undefined }));
+  const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
+
+  return Array.from({ length: state.questionCount }, (_, index) => ({
+    ...shuffledQuestions[index % shuffledQuestions.length],
+    selectedChoice: undefined
+  }));
 }
 
 function startQuiz(mode) {
   const questions = buildQuestions(mode);
+  const quizBox = elements.quizArea?.closest('.quiz-box');
+
+  if (!questions.length) {
+    alert('Belum ada soal untuk tingkat kesulitan yang dipilih.');
+    return;
+  }
 
   state.quiz = {
     mode,
     questions,
     questionLimitNotice: questions.length < state.questionCount
-      ? `Tersedia ${questions.length} soal unik pada tingkat kesulitan ini. Semua soal akan ditampilkan tanpa pengulangan.`
+      ? `Jumlah soal: ${state.questionCount}. Bank soal ini memiliki ${questions.length} soal unik, sehingga beberapa soal akan muncul kembali.`
       : '',
     currentIndex: 0,
     correct: 0,
@@ -873,9 +901,15 @@ function startQuiz(mode) {
     timerId: null,
     active: true,
     timed: !state.untimedMode,
+    remainingSeconds: state.minutes * 60,
     totalSeconds: 0,
     finished: false
   };
+
+  if (elements.topicSelect) {
+    elements.topicSelect.disabled = true;
+  }
+  quizBox?.classList.add('quiz-active');
 
   elements.quizArea.classList.remove('hidden');
   elements.quizArea.innerHTML = '';
@@ -890,22 +924,22 @@ function startQuiz(mode) {
 
 function startCountdown() {
   const totalSeconds = state.minutes * 60;
-  let remaining = totalSeconds;
+  state.quiz.remainingSeconds = totalSeconds;
 
   state.quiz.timerId = setInterval(() => {
-    remaining -= 1;
-    state.quiz.totalSeconds = totalSeconds - remaining;
+    state.quiz.remainingSeconds -= 1;
+    state.quiz.totalSeconds = totalSeconds - state.quiz.remainingSeconds;
 
-    if (remaining <= 0) {
+    if (state.quiz.remainingSeconds <= 0) {
       clearInterval(state.quiz.timerId);
       finishQuiz('Waktu habis');
       return;
     }
 
-    renderTimerLabel(remaining);
+    renderTimerLabel(state.quiz.remainingSeconds);
   }, 1000);
 
-  renderTimerLabel(remaining);
+  renderTimerLabel(state.quiz.remainingSeconds);
 }
 
 function renderTimerLabel(remaining) {
@@ -1012,7 +1046,7 @@ function renderQuestion() {
   });
 
   if (state.quiz.timed) {
-    renderTimerLabel(state.minutes * 60);
+    renderTimerLabel(state.quiz.remainingSeconds);
   }
 }
 
@@ -1043,6 +1077,10 @@ function finishQuiz(statusText) {
 
   clearInterval(state.quiz.timerId);
   document.querySelector('.quiz-meta.timer')?.remove();
+  elements.quizArea?.closest('.quiz-box')?.classList.remove('quiz-active');
+  if (elements.topicSelect) {
+    elements.topicSelect.disabled = false;
+  }
   state.quiz.finished = true;
 
   const total = state.quiz.questions.length;
@@ -1200,6 +1238,42 @@ function formatDuration(seconds) {
   return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+function bindFeedbackForm() {
+  const form = document.getElementById('feedbackForm');
+  if (!form) return;
+
+  const status = document.getElementById('feedbackStatus');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const payload = {
+      type: (formData.get('type') || 'saran').toString(),
+      message: (formData.get('message') || '').toString().trim(),
+      createdAt: new Date().toISOString()
+    };
+
+    if (!payload.message) {
+      status.textContent = 'Pesan masukan tidak boleh kosong.';
+      status.style.color = '#b91c1c';
+      return;
+    }
+
+    try {
+      const existing = JSON.parse(localStorage.getItem('edulearn-feedback') || '[]');
+      const next = [payload, ...existing].slice(0, 20);
+      localStorage.setItem('edulearn-feedback', JSON.stringify(next));
+      form.reset();
+      status.textContent = 'Terima kasih! Masukan Anda sudah tersimpan.';
+      status.style.color = '#15803d';
+    } catch (error) {
+      status.textContent = 'Maaf, masukan tidak dapat disimpan saat ini.';
+      status.style.color = '#b91c1c';
+    }
+  });
+}
+
 function initialize() {
   if (elements.currentYear) {
     elements.currentYear.textContent = new Date().getFullYear();
@@ -1227,6 +1301,7 @@ function initialize() {
   setDifficultyButtons();
   renderProgressOverview();
   bindEvents();
+  bindFeedbackForm();
 }
 
 initialize();
