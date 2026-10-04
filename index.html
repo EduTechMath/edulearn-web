@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduLearn | Matematika Kelas 11</title>
-  <meta name="description" content="Website pembelajaran Matematika Kelas 11 dengan materi PK dan PM, pembahasan detail, latihan soal, mode tanpa waktu, dan grafik perkembangan." />
+  <title>EduLearn | Grade 11 Mathematics</title>
+  <meta name="description" content="A Grade 11 Mathematics learning website with PK and PM topics, detailed explanations, practice exercises, untimed mode, and progress tracking." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,15 +16,16 @@
       </a>
 
       <nav class="nav-links" aria-label="Main navigation">
-        <a href="#materi">Materi</a>
-        <a href="#latihan">Latihan</a>
-        <a href="#progress">Perkembangan</a>
-        <a href="#feedback">Masukan</a>
+        <a href="#materi" data-view-target="#materi" data-i18n="nav.topics">Topics</a>
+        <a href="#latihan" data-view-target="#latihan" data-i18n="nav.practice">Practice</a>
+        <a href="#progress" data-i18n="nav.progress">Progress</a>
+        <a href="#feedback" data-i18n="nav.feedback">Feedback</a>
       </nav>
 
       <div class="nav-actions">
-        <a class="btn btn-ghost" href="#materi">Materi</a>
-        <a class="btn btn-primary" href="subtest.html">Mulai Belajar</a>
+        <button id="settingsToggle" class="btn btn-ghost settings-toggle" type="button" data-i18n="settings.title">Settings</button>
+        <a class="btn btn-ghost" href="#materi" data-view-target="#materi" data-i18n="nav.topics">Topics</a>
+        <a class="btn btn-primary" href="#latihan" data-view-target="#latihan" data-i18n="nav.startLearning">Start Learning</a>
       </div>
 
       <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
@@ -35,72 +36,28 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <div class="eyebrow">Matematika Kelas 11</div>
-          <h1>Pembelajaran lengkap PK dan PM untuk persiapan UTBK</h1>
-          <p>
-            EduLearn hadir sebagai platform belajar matematika yang memisahkan materi PK dan PM,
-            lengkap dengan pembahasan materi, soal per subtest, ujian semua materi, serta grafik perkembangan.
+          <div class="eyebrow" data-i18n="hero.eyebrow">Grade 11 Mathematics</div>
+          <h1 data-i18n="hero.title">Complete PK and PM learning for UTBK preparation</h1>
+          <p data-i18n="hero.description">
+            EduLearn is a math learning platform that separates PK and PM topics,
+            with detailed explanations, subtest questions, full-review exams, and progress tracking.
           </p>
 
           <div class="cta-group">
-            <a class="btn btn-primary" href="#materi">Lihat Materi</a>
-            <a class="btn btn-secondary" href="subtest.html">Mulai Latihan</a>
+            <a class="btn btn-secondary cta-link active" href="#materi" data-view-target="#materi" data-i18n="cta.viewTopics">View Topics</a>
+            <a class="btn btn-secondary cta-link" href="#latihan" data-view-target="#latihan" data-i18n="cta.startPractice">Start Practice</a>
           </div>
 
-          <div class="hero-metrics">
-            <div class="metric">
-              <strong>2</strong>
-              <span>jalur utama</span>
-            </div>
-            <div class="metric">
-              <strong>3</strong>
-              <span>tingkat kesulitan</span>
-            </div>
-            <div class="metric">
-              <strong>1</strong>
-              <span>semua materi</span>
-            </div>
-          </div>
         </div>
 
-        <div class="hero-panel">
-          <div class="panel-card">
-            <div class="panel-header">
-              <span>Ringkasan belajar</span>
-              <span class="panel-status">Aktif</span>
-            </div>
-
-            <div class="promo-preview">
-              <span class="promo-tag">Materi favorit</span>
-              <div class="promo-title">PK dan PM Kelas 11</div>
-              <div class="promo-meta">
-                <span>Subtest terstruktur</span>
-                <span>Ujian gabungan</span>
-              </div>
-            </div>
-
-            <div class="progress-ring" aria-label="Overview progress">
-              <div class="progress-content">
-                <strong id="overviewPercent">0%</strong>
-                <small>Progress</small>
-              </div>
-            </div>
-
-            <ul class="schedule">
-              <li><span>1. Pilih materi PK / PM</span><strong>Siap</strong></li>
-              <li><span>2. Baca pembahasan detail</span><strong>Siap</strong></li>
-              <li><span>3. Kerjakan latihan dan evaluasi</span><strong>Siap</strong></li>
-            </ul>
-          </div>
-        </div>
       </div>
     </section>
 
     <section class="section" id="materi">
       <div class="container">
         <div class="section-header center">
-          <p>Materi Pilihan</p>
-          <h2>Pilih kelompok materi belajar</h2>
+          <p data-i18n="topics.label">Available Topics</p>
+          <h2 data-i18n="topics.title">Select your study material group</h2>
         </div>
 
         <div class="subject-switch">
@@ -118,31 +75,31 @@
       </div>
     </section>
 
-    <section class="section" id="latihan">
+    <section class="section" id="latihan" hidden>
       <div class="container">
         <div class="section-header center">
-          <p>Latihan Soal</p>
-          <h2>Atur mode latihan sesuai kebutuhan</h2>
+          <p data-i18n="practice.label">Practice Questions</p>
+          <h2 data-i18n="practice.title">Adjust the practice mode to match your needs</h2>
         </div>
 
         <div class="quiz-box">
           <div class="quiz-controls">
             <div class="field-group compact">
-              <label for="topicSelect">Subtest</label>
+              <label for="topicSelect" data-i18n="practice.subtest">Subtest</label>
               <select id="topicSelect"></select>
             </div>
 
             <div class="field-group compact">
-              <label>Tingkat kesulitan</label>
+              <label data-i18n="practice.difficulty">Difficulty</label>
               <div class="difficulty-group">
-                <button class="difficulty-btn active" data-difficulty="mudah" type="button">Mudah</button>
-                <button class="difficulty-btn" data-difficulty="sedang" type="button">Sedang</button>
-                <button class="difficulty-btn" data-difficulty="susah" type="button">Susah</button>
+                <button class="difficulty-btn active" data-difficulty="mudah" type="button" data-i18n="practice.easy">Easy</button>
+                <button class="difficulty-btn" data-difficulty="sedang" type="button" data-i18n="practice.medium">Medium</button>
+                <button class="difficulty-btn" data-difficulty="susah" type="button" data-i18n="practice.hard">Hard</button>
               </div>
             </div>
 
             <div class="field-group compact">
-              <label>Waktu</label>
+              <label data-i18n="practice.time">Time</label>
               <div class="timer-adjust">
                 <button id="decreaseTime" type="button">−</button>
                 <input id="timerMinutes" type="number" min="1" max="60" value="10" />
@@ -151,19 +108,19 @@
             </div>
 
             <div class="field-group compact">
-              <label for="questionCount">Jumlah soal</label>
+              <label for="questionCount" data-i18n="practice.questionCount">Number of questions</label>
               <input id="questionCount" type="number" min="5" max="50" value="10" />
             </div>
 
             <label class="toggle-row">
               <input id="untimedMode" type="checkbox" />
-              <span>Mode tanpa waktu</span>
+              <span data-i18n="practice.untimed">Untimed mode</span>
             </label>
           </div>
 
           <div class="quiz-actions">
-            <a class="btn btn-primary" href="subtest.html">Buka Halaman Subtest</a>
-            <button id="startExam" class="btn btn-secondary" type="button">Ujian Semua Materi</button>
+            <button id="startSubtest" class="btn btn-primary" type="button" data-i18n="practice.openSubtest">Start Subtest</button>
+            <button id="startExam" class="btn btn-secondary" type="button" data-i18n="practice.fullReview">Full Review Exam</button>
           </div>
 
           <div id="quizArea" class="quiz-area hidden"></div>
@@ -175,39 +132,61 @@
     <section class="section progress-section" id="progress">
       <div class="container">
         <div class="section-header center">
-          <p>Grafik Perkembangan</p>
-          <h2>Perhatikan efisiensi dan hasil setiap subtest</h2>
-        </div>
+        <p data-i18n="progress.label">Progress Chart</p>
+        <h2 data-i18n="progress.title">Track efficiency and results for each subtest</h2>
 
         <div id="progressOverview" class="progress-overview"></div>
       </div>
     </section>
   </main>
 
+  <aside id="settingsPanel" class="settings-panel hidden" aria-label="Website settings">
+    <div class="settings-header">
+      <h3 data-i18n="settings.title">Settings</h3>
+      <button id="closeSettings" class="settings-close" type="button" aria-label="Close settings">×</button>
+    </div>
+
+    <div class="settings-group">
+      <label for="languageSelect" data-i18n="settings.languageLabel">Language</label>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="id">Indonesia</option>
+      </select>
+    </div>
+
+    <div class="settings-group">
+      <span data-i18n="settings.themeLabel">Theme</span>
+      <div class="theme-switch">
+        <button class="theme-btn active" data-theme="light" type="button" data-i18n="settings.lightTheme">Light</button>
+        <button class="theme-btn" data-theme="dark" type="button" data-i18n="settings.darkTheme">Dark</button>
+      </div>
+    </div>
+  </aside>
+
   <section id="feedback" class="section feedback-section">
     <div class="container">
       <div class="section-header center">
-        <p>Masukan &amp; Saran</p>
-        <h2>Berikan pendapatmu untuk pengembangan aplikasi</h2>
+        <p data-i18n="feedback.label">Feedback &amp; Suggestions</p>
+        <h2 data-i18n="feedback.title">Share your feedback to improve the app</h2>
       </div>
 
       <div class="feedback-card">
         <form id="feedbackForm" class="feedback-form">
           <div class="field-group">
-            <label for="feedbackType">Jenis masukan</label>
+            <label for="feedbackType" data-i18n="feedback.typeLabel">Feedback type</label>
             <select id="feedbackType" name="type">
-              <option value="saran">Saran</option>
-              <option value="kritik">Kritik</option>
-              <option value="request">Permintaan fitur</option>
+              <option value="saran" data-i18n="feedback.optionSuggestion">Suggestion</option>
+              <option value="kritik" data-i18n="feedback.optionCriticism">Criticism</option>
+              <option value="request" data-i18n="feedback.optionRequest">Feature request</option>
             </select>
           </div>
 
           <div class="field-group">
-            <label for="feedbackMessage">Pesan</label>
-            <textarea id="feedbackMessage" name="message" rows="5" placeholder="Tuliskan saran, kritik, atau hal yang ingin ditambahkan pada aplikasi..." required></textarea>
+            <label for="feedbackMessage" data-i18n="feedback.messageLabel">Message</label>
+            <textarea id="feedbackMessage" name="message" rows="5" placeholder="Write your suggestion, criticism, or requested feature..." data-i18n-placeholder="feedback.placeholder" required></textarea>
           </div>
 
-          <button class="btn btn-primary" type="submit">Kirim Masukan</button>
+          <button class="btn btn-primary" type="submit" data-i18n="feedback.sendButton">Send Feedback</button>
         </form>
         <p id="feedbackStatus" class="feedback-status" aria-live="polite"></p>
       </div>
@@ -216,12 +195,12 @@
 
   <footer>
     <div class="container footer-inner">
-      <div>© <span id="current-year">2026</span> EduLearn. Semua hak dilindungi.</div>
+      <div>© <span id="current-year">2026</span> EduLearn. All rights reserved.</div>
       <div class="footer-links">
-        <a href="#materi">Materi</a>
-        <a href="#latihan">Latihan</a>
-        <a href="#progress">Perkembangan</a>
-        <a href="#feedback">Masukan</a>
+        <a href="#materi" data-view-target="#materi" data-i18n="nav.topics">Topics</a>
+        <a href="#latihan" data-view-target="#latihan" data-i18n="nav.practice">Practice</a>
+        <a href="#progress" data-i18n="nav.progress">Progress</a>
+        <a href="#feedback" data-i18n="nav.feedback">Feedback</a>
       </div>
     </div>
   </footer>

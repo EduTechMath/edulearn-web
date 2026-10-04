@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EduLearn | Subtest</title>
-  <meta name="description" content="Halaman subtest untuk latihan soal matematika kelas 11." />
+  <meta name="description" content="Subtest page for Grade 11 mathematics practice questions." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,14 +16,14 @@
       </a>
 
       <nav class="nav-links" aria-label="Main navigation">
-        <a href="index.html#materi">Materi</a>
-        <a href="index.html#latihan">Latihan</a>
-        <a href="index.html#progress">Perkembangan</a>
-        <a href="index.html#feedback">Masukan</a>
+        <a href="index.html#materi">Topics</a>
+        <a href="subtest.html">Practice</a>
+        <a href="index.html#progress">Progress</a>
+        <a href="index.html#feedback">Feedback</a>
       </nav>
 
       <div class="nav-actions">
-        <a class="btn btn-ghost" href="index.html#materi">Kembali ke Materi</a>
+        <a class="btn btn-ghost" href="index.html#materi">Back to Topics</a>
         <a class="btn btn-primary" href="index.html">Home</a>
       </div>
 
@@ -35,28 +35,28 @@
     <section class="section">
       <div class="container">
         <div class="section-header center">
-          <p>Halaman Subtest</p>
-          <h2>Latihan khusus subtest PK dan PM</h2>
+          <p>Subtest Page</p>
+          <h2>Special practice for PK and PM subtests</h2>
         </div>
 
         <div class="quiz-box subtest-box">
           <div class="quiz-controls">
             <div class="field-group compact">
-              <label for="topicSelect">Pilih subtest</label>
+              <label for="topicSelect">Choose subtest</label>
               <select id="topicSelect"></select>
             </div>
 
             <div class="field-group compact">
-              <label>Tingkat kesulitan</label>
+              <label>Difficulty</label>
               <div class="difficulty-group">
-                <button class="difficulty-btn active" data-difficulty="mudah" type="button">Mudah</button>
-                <button class="difficulty-btn" data-difficulty="sedang" type="button">Sedang</button>
-                <button class="difficulty-btn" data-difficulty="susah" type="button">Susah</button>
+                <button class="difficulty-btn active" data-difficulty="mudah" type="button">Easy</button>
+                <button class="difficulty-btn" data-difficulty="sedang" type="button">Medium</button>
+                <button class="difficulty-btn" data-difficulty="susah" type="button">Hard</button>
               </div>
             </div>
 
             <div class="field-group compact">
-              <label>Waktu</label>
+              <label>Time</label>
               <div class="timer-adjust">
                 <button id="decreaseTime" type="button">−</button>
                 <input id="timerMinutes" type="number" min="1" max="60" value="10" />
@@ -65,19 +65,19 @@
             </div>
 
             <div class="field-group compact">
-              <label for="questionCount">Jumlah soal</label>
+              <label for="questionCount">Number of questions</label>
               <input id="questionCount" type="number" min="5" max="50" value="10" />
             </div>
 
             <label class="toggle-row">
               <input id="untimedMode" type="checkbox" />
-              <span>Mode tanpa waktu</span>
+              <span>Untimed mode</span>
             </label>
           </div>
 
           <div class="quiz-actions">
-            <button id="startSubtest" class="btn btn-primary" type="button">Mulai Subtest</button>
-            <button id="startExam" class="btn btn-secondary" type="button">Ujian Semua Materi</button>
+            <button id="startSubtest" class="btn btn-primary" type="button">Start Subtest</button>
+            <button id="startExam" class="btn btn-secondary" type="button">Full Review Exam</button>
           </div>
 
           <div id="quizArea" class="quiz-area hidden"></div>
@@ -90,27 +90,27 @@
   <section id="feedback" class="section feedback-section">
     <div class="container">
       <div class="section-header center">
-        <p>Masukan &amp; Saran</p>
-        <h2>Berikan pendapatmu untuk pengembangan aplikasi</h2>
+        <p>Feedback &amp; Suggestions</p>
+        <h2>Share your opinion to improve the app</h2>
       </div>
 
       <div class="feedback-card">
         <form id="feedbackForm" class="feedback-form">
           <div class="field-group">
-            <label for="feedbackType">Jenis masukan</label>
+            <label for="feedbackType">Feedback type</label>
             <select id="feedbackType" name="type">
-              <option value="saran">Saran</option>
-              <option value="kritik">Kritik</option>
-              <option value="request">Permintaan fitur</option>
+              <option value="saran">Suggestion</option>
+              <option value="kritik">Criticism</option>
+              <option value="request">Feature request</option>
             </select>
           </div>
 
           <div class="field-group">
-            <label for="feedbackMessage">Pesan</label>
-            <textarea id="feedbackMessage" name="message" rows="5" placeholder="Tuliskan saran, kritik, atau hal yang ingin ditambahkan pada aplikasi..." required></textarea>
+            <label for="feedbackMessage">Message</label>
+            <textarea id="feedbackMessage" name="message" rows="5" placeholder="Write your suggestion, criticism, or app improvement idea..." required></textarea>
           </div>
 
-          <button class="btn btn-primary" type="submit">Kirim Masukan</button>
+          <button class="btn btn-primary" type="submit">Send Feedback</button>
         </form>
         <p id="feedbackStatus" class="feedback-status" aria-live="polite"></p>
       </div>
@@ -119,12 +119,12 @@
 
   <footer>
     <div class="container footer-inner">
-      <div>© <span id="current-year">2026</span> EduLearn. Semua hak dilindungi.</div>
+      <div>© <span id="current-year">2026</span> EduLearn. All rights reserved.</div>
       <div class="footer-links">
-        <a href="index.html#materi">Materi</a>
-        <a href="index.html#latihan">Latihan</a>
-        <a href="index.html#progress">Perkembangan</a>
-        <a href="index.html#feedback">Masukan</a>
+        <a href="index.html#materi">Topics</a>
+        <a href="subtest.html">Practice</a>
+        <a href="index.html#progress">Progress</a>
+        <a href="index.html#feedback">Feedback</a>
       </div>
     </div>
   </footer>

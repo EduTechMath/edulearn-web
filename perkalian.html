@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathTogether | Multiplication</title>
+    <meta name="description" content="Multiplication study guide and quiz with timer and error explanations.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="container nav">
+            <a href="index.html" class="brand" aria-label="MathTogether home">
+                <span class="brand-mark">M</span>
+                <span>MathTogether</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="index.html#materi">Topics</a>
+                <a href="index.html#latihan">Practice</a>
+                <a href="index.html#progress">Progress</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a class="btn btn-secondary" href="index.html">Back to Topics</a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+        </div>
+    </header>
+
+    <main class="quiz-page">
+        <div class="container">
+            <section class="material-section">
+                <p class="eyebrow">Study material</p>
+                <h1>Multiplication</h1>
+
+                <div class="study-grid">
+                    <div class="study-card">
+                        <h3>Basic concept</h3>
+                        <p>Multiplication is a way to calculate repeated addition of the same number.</p>
+                        <ul>
+                            <li>The multiplication symbol is <strong>x</strong>.</li>
+                            <li>Example: <strong>3 x 4 = 12</strong></li>
+                            <li>It means the same as 4 + 4 + 4.</li>
+                        </ul>
+                    </div>
+
+                    <div class="study-card highlight">
+                        <h3>Easy example</h3>
+                        <p>If there are 5 boxes and each box contains 2 pencils, the total number of pencils is 10.</p>
+                        <p><strong>5 x 2 = 10</strong></p>
+                        <p>Multiplication is very useful for calculating groups or repeated amounts.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timer-section">
+                <div class="timer-box">
+                    <div>
+                        <p class="eyebrow small">Set time</p>
+                        <h2>Start the quiz</h2>
+                    </div>
+
+                    <div class="timer-controls">
+                        <div class="field-group">
+                            <label for="timerSelect">Duration</label>
+                            <select id="timerSelect">
+                                <option value="1">1 minute</option>
+                                <option value="3">3 minutes</option>
+                                <option value="5" selected>5 minutes</option>
+                                <option value="10">10 minutes</option>
+                            </select>
+                        </div>
+                        <button id="startQuizBtn" class="btn btn-primary" type="button">Start Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="quizSection" class="quiz-content hidden">
+                <div class="quiz-topbar">
+                    <div class="timer-display">
+                        <span>Time remaining</span>
+                        <strong id="timerDisplay">05:00</strong>
+                    </div>
+                    <div class="score-badge">
+                        <span>Score</span>
+                        <strong id="scoreDisplay">0</strong>
+                    </div>
+                </div>
+
+                <div id="quizContainer" class="quiz-form"></div>
+
+                <div class="quiz-footer">
+                    <button id="finishBtn" class="btn btn-secondary" type="button">Finish</button>
+                </div>
+
+                <div id="resultBox" class="result-box hidden">
+                    <h3>Quiz Results</h3>
+                    <p id="resultSummary"></p>
+                    <div id="mistakeList" class="mistake-list"></div>
+                    <div class="quiz-actions">
+                        <button id="retryBtn" class="btn btn-primary" type="button">Retry Quiz</button>
+                        <a class="btn btn-secondary" href="index.html">Back to Topics</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const questions = [
+            { question: '3 x 4 = ?', options: ['10', '11', '12', '13'], correct: 2, explanation: 'Correct, 3 x 4 = 12.' },
+            { question: '5 x 2 = ?', options: ['8', '9', '10', '11'], correct: 2, explanation: 'Correct, 5 x 2 = 10.' },
+            { question: '6 x 3 = ?', options: ['16', '17', '18', '19'], correct: 2, explanation: 'Correct, 6 x 3 = 18.' },
+            { question: '7 x 4 = ?', options: ['26', '27', '28', '29'], correct: 2, explanation: 'Correct, 7 x 4 = 28.' },
+            { question: '8 x 5 = ?', options: ['39', '40', '41', '42'], correct: 1, explanation: 'Correct, 8 x 5 = 40.' }
+        ];
+
+        const quizSection = document.getElementById('quizSection');
+        const quizContainer = document.getElementById('quizContainer');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const timerSelect = document.getElementById('timerSelect');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const finishBtn = document.getElementById('finishBtn');
+        const resultBox = document.getElementById('resultBox');
+        const resultSummary = document.getElementById('resultSummary');
+        const mistakeList = document.getElementById('mistakeList');
+        const retryBtn = document.getElementById('retryBtn');
+
+        let timerId = null;
+        let timeLeft = 0;
+        let score = 0;
+        let answeredCount = 0;
+        let mistakes = [];
+
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function renderQuestions() {
+            quizContainer.innerHTML = questions.map((item, index) => `
+                <div class="question-card" data-index="${index}">
+                    <h3>${index + 1}. ${item.question}</h3>
+                    <div class="option-list">
+                        ${item.options.map((option, optionIndex) => `
+                            <button class="option-btn" type="button" data-index="${index}" data-option="${optionIndex}">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="explanation"></div>
+                </div>
+            `).join('');
+        }
+
+        function resetState() {
+            clearInterval(timerId);
+            score = 0;
+            answeredCount = 0;
+            mistakes = [];
+            scoreDisplay.textContent = '0';
+            resultBox.classList.add('hidden');
+            finishBtn.disabled = true;
+            timerSelect.disabled = false;
+            startQuizBtn.disabled = false;
+        }
+
+        function finishQuiz(autoEnded = false) {
+            clearInterval(timerId);
+
+            const totalQuestions = questions.length;
+            const unanswered = totalQuestions - answeredCount;
+            const percent = Math.round((score / totalQuestions) * 100);
+            const statusText = autoEnded ? 'Time is up! Quiz finished.' : 'Quiz finished!';
+
+            resultSummary.innerHTML = `
+                <strong>Score:</strong> ${score}/${totalQuestions} (${percent}%)<br>
+                <strong>Status:</strong> ${statusText}<br>
+                <strong>Unanswered:</strong> ${unanswered}
+            `;
+
+            const list = mistakes.length
+                ? mistakes.map((item) => `
+                    <div class="mistake-item">
+                        <p><strong>Question ${item.no}:</strong> ${item.question}</p>
+                        <p>Your answer: ${item.selected}</p>
+                        <p>Explanation: ${item.explanation}</p>
+                    </div>
+                `).join('')
+                : '<div class="mistake-item"><p>All answers are correct! 🎉</p></div>';
+
+            mistakeList.innerHTML = list;
+            resultBox.classList.remove('hidden');
+
+            quizContainer.querySelectorAll('.option-btn').forEach((btn) => {
+                btn.disabled = true;
+            });
+
+            finishBtn.disabled = true;
+            timerSelect.disabled = false;
+            startQuizBtn.disabled = false;
+        }
+
+        function startQuiz() {
+            resetState();
+            const minutes = Number(timerSelect.value);
+            timeLeft = minutes * 60;
+            renderQuestions();
+            quizSection.classList.remove('hidden');
+            timerDisplay.textContent = formatTime(timeLeft);
+            updateScore();
+            timerSelect.disabled = true;
+            startQuizBtn.disabled = true;
+            finishBtn.disabled = false;
+
+            timerId = setInterval(() => {
+                timeLeft -= 1;
+                timerDisplay.textContent = formatTime(timeLeft);
+
+                if (timeLeft <= 0) {
+                    finishQuiz(true);
+                }
+            }, 1000);
+        }
+
+        function updateScore() {
+            scoreDisplay.textContent = score;
+        }
+
+        startQuizBtn.addEventListener('click', startQuiz);
+        retryBtn.addEventListener('click', startQuiz);
+        finishBtn.addEventListener('click', () => finishQuiz(false));
+
+        quizContainer.addEventListener('click', function (event) {
+            const button = event.target.closest('.option-btn');
+            if (!button) return;
+
+            const questionIndex = Number(button.dataset.index);
+            const questionCard = button.closest('.question-card');
+            const question = questions[questionIndex];
+            const chosenIndex = Number(button.dataset.option);
+
+            if (questionCard.dataset.answered === 'true') return;
+
+            const explanation = questionCard.querySelector('.explanation');
+            const options = questionCard.querySelectorAll('.option-btn');
+
+            questionCard.dataset.answered = 'true';
+            answeredCount += 1;
+
+            options.forEach((option) => {
+                option.disabled = true;
+                const optionIndex = Number(option.dataset.option);
+                if (optionIndex === question.correct) {
+                    option.classList.add('correct');
+                }
+            });
+
+            if (chosenIndex === question.correct) {
+                score += 1;
+                button.classList.add('correct');
+                explanation.textContent = 'Correct! ' + question.explanation;
+            } else {
+                button.classList.add('incorrect');
+                mistakes.push({
+                    no: questionIndex + 1,
+                    question: question.question,
+                    selected: question.options[chosenIndex],
+                    explanation: question.explanation
+                });
+                explanation.textContent = 'Incorrect. ' + question.explanation;
+            }
+
+            updateScore();
+
+            if (answeredCount === questions.length) {
+                finishQuiz(false);
+            }
+        });
+    </script>
+</body>
+</html>
