@@ -33,23 +33,34 @@
   </header>
 
   <main id="home">
-    <section class="hero">
+    <section class="hero landing-hero">
       <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow" data-i18n="hero.eyebrow">Grade 11 Mathematics</div>
-          <h1 data-i18n="hero.title">Complete PK and PM learning for UTBK preparation</h1>
-          <p data-i18n="hero.description">
-            EduLearn is a math learning platform that separates PK and PM topics,
-            with detailed explanations, subtest questions, full-review exams, and progress tracking.
-          </p>
+        <div class="hero-copy landing-copy">
+          <p class="landing-eyebrow" data-i18n="landing.eyebrow">Latihan PK UTBK</p>
+          <h1 data-i18n="landing.title">Latihan PK, dengan pembahasan setelah kamu mencoba.</h1>
+          <p data-i18n="landing.description">Pilih jawaban dulu. Setelah itu, lihat langkah penyelesaian dan akurasi per topik untuk menentukan latihan berikutnya.</p>
 
           <div class="cta-group">
             <a class="btn btn-secondary cta-link active" href="#materi" data-view-target="#materi" data-i18n="cta.viewTopics">View Topics</a>
-            <a class="btn btn-secondary cta-link" href="#latihan" data-view-target="#latihan" data-i18n="cta.startPractice">Start Practice</a>
+            <a class="btn btn-primary cta-link" href="#latihan" data-view-target="#latihan" data-i18n="cta.startPractice">Start Practice</a>
           </div>
-
         </div>
 
+        <article class="landing-card" aria-labelledby="landing-question-title">
+          <div class="landing-card-topline">
+            <span class="landing-badge" data-i18n="landing.exampleLabel">Contoh soal PK</span>
+            <span class="landing-card-meta" data-i18n="landing.exampleNumber">Contoh · 01</span>
+          </div>
+          <h2 id="landing-question-title" data-i18n="landing.question">Akar-akar dari x² - 5x + 6 = 0 adalah ...</h2>
+          <fieldset class="landing-choice-list" id="landingPredictionChoices">
+            <legend data-i18n="landing.chooseAnswer">Pilih jawabanmu</legend>
+            <label class="landing-choice"><input type="radio" name="landingPrediction" value="2,3" /><span>x = 2 dan x = 3</span></label>
+            <label class="landing-choice"><input type="radio" name="landingPrediction" value="-2,-3" /><span>x = -2 dan x = -3</span></label>
+            <label class="landing-choice"><input type="radio" name="landingPrediction" value="-1,6" /><span>x = -1 dan x = 6</span></label>
+          </fieldset>
+          <button class="btn btn-primary landing-check-button" id="checkLandingAnswer" type="button" data-i18n="landing.checkAnswer">Periksa jawaban</button>
+          <p class="landing-feedback" id="landingFeedback" aria-live="polite" data-i18n="landing.feedbackPrompt">Pilih jawaban dulu, lalu kita cek langkahnya.</p>
+        </article>
       </div>
     </section>
 
@@ -82,7 +93,7 @@
           <h2 data-i18n="practice.title">Adjust the practice mode to match your needs</h2>
         </div>
 
-        <div class="quiz-box">
+        <div class="quiz-box official-exam">
           <div class="quiz-controls">
             <div class="field-group compact">
               <label for="topicSelect" data-i18n="practice.subtest">Subtest</label>

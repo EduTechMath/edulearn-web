@@ -616,6 +616,7 @@ const questionTranslations = {
 };
 
 const STORAGE_KEY = 'edulearn-progress-v1';
+const REVIEW_BOOKMARKS_KEY = 'edulearn-review-bookmarks-v1';
 
 function getLocalizedMaterialData() {
   const selectedLanguage = getSettings().language;
@@ -1007,9 +1008,12 @@ function startCountdown() {
 
 function renderTimerLabel(remaining) {
   const quizMeta = document.querySelector('.quiz-meta.timer');
+  const isOfficialExam = Boolean(elements.quizArea?.closest('.official-exam'));
+  const timerClass = isOfficialExam ? 'quiz-meta timer exam-timer' : 'quiz-meta timer';
+  const timerRole = isOfficialExam ? ' role="timer"' : '';
   const markup = `
-    <div class="quiz-meta timer">
-      <span>${t('common.timeLeft')}: <strong>${formatDuration(remaining)}</strong></span>
+    <div class="${timerClass}">
+      <span>${t('common.timeLeft')}: <strong${timerRole}>${formatDuration(remaining)}</strong></span>
       <span>${t('common.question')} ${state.quiz.currentIndex + 1}/${state.quiz.questions.length}</span>
     </div>
   `;
@@ -1053,6 +1057,7 @@ function renderQuestionVisual(visualType) {
 function renderQuestion() {
   if (!state.quiz || state.quiz.finished) return;
 
+  const isOfficialExam = Boolean(elements.quizArea?.closest('.official-exam'));
   const sourceQuestion = state.quiz.questions[state.quiz.currentIndex];
   const question = localizeQuestion(sourceQuestion);
   const questionNumber = state.quiz.currentIndex + 1;
@@ -1069,8 +1074,58 @@ function renderQuestion() {
   const questionLimitNotice = state.quiz.questionLimitNotice
     ? `<p class="question-limit-notice">${state.quiz.questionLimitNotice}</p>`
     : '';
+  const answeredCount = state.quiz.questions.filter((item) => item.selectedChoice !== undefined).length;
+  const timerMarkup = isOfficialExam && state.quiz.timed
+    ? `<div class="quiz-meta timer exam-timer"><span>${t('common.timeLeft')}: <strong role="timer">${formatDuration(state.quiz.remainingSeconds)}</strong></span><span>${t('common.question')} ${questionNumber}/${state.quiz.questions.length}</span></div>`
+    : '';
+  const navigationMarkup = isOfficialExam ? state.quiz.questions.map((item, index) => {
+    const isCurrent = index === state.quiz.currentIndex;
+    const isAnswered = item.selectedChoice !== undefined;
+    const label = `${t('common.goToQuestion')} ${index + 1}: ${t(isAnswered ? 'common.answered' : 'common.notAnswered')}`;
+    return `<button class="question-number ${isCurrent ? 'is-current' : ''} ${isAnswered ? 'is-answered' : ''}" type="button" data-go-question="${index}" aria-label="${label}"${isCurrent ? ' aria-current="step" tabindex="0"' : ' tabindex="-1"'}>${index + 1}</button>`;
+  }).join('') : '';
 
-  const content = `
+  const officialContent = `
+    <div class="exam-layout">
+      <div class="exam-main">
+        <div class="exam-toolbar">
+          <div class="quiz-meta"><span>${t('common.question')} ${questionNumber}/${state.quiz.questions.length}</span><span>${answeredCount} ${t('common.answered')}</span></div>
+          ${timerMarkup}
+        </div>
+        ${questionLimitNotice}
+        <div class="quiz-card exam-question-card">
+          <div class="quiz-meta"><span>${question.topicName}</span><span>${t('common.question')} ${questionNumber}/${state.quiz.questions.length}</span></div>
+          <h3 tabindex="-1" id="activeQuestionPrompt">${question.prompt}</h3>
+          ${visualHtml}
+          ${subPointsHtml}
+          <div class="option-list">
+            ${question.options.map((option, index) => {
+              const isSelected = sourceQuestion.selectedChoice === index;
+              return `<button class="option-btn ${isSelected ? 'selected' : ''}" data-choice="${index}" type="button" aria-pressed="${isSelected}" ${sourceQuestion.selectedChoice !== undefined ? 'disabled' : ''}>${option}</button>`;
+            }).join('')}
+          </div>
+          <div class="explanation-box hidden"></div>
+          <div class="quiz-footer">
+            <button class="btn btn-secondary" id="previousQuestionBtn" type="button" ${questionNumber === 1 ? 'disabled' : ''}>${t('common.previous')}</button>
+            <button class="btn btn-primary" id="nextQuestionBtn" type="button">
+              ${questionNumber === state.quiz.questions.length ? t('common.finish') : t('common.next')}
+            </button>
+          </div>
+        </div>
+      </div>
+      <aside class="question-navigation" aria-label="${t('common.questionNavigation')}">
+        <div class="question-nav-heading"><h4>${t('common.questionNavigation')}</h4><span class="question-navigation-summary">${answeredCount}/${state.quiz.questions.length} ${t('common.answered')}</span></div>
+        <div class="question-number-grid" role="group" aria-label="${t('common.questionNavigation')}">${navigationMarkup}</div>
+        <div class="question-nav-legend" aria-label="${t('common.questionStatus')}">
+          <span><i class="legend-swatch current"></i>${t('common.currentQuestion')}</span>
+          <span><i class="legend-swatch answered"></i>${t('common.answered')}</span>
+          <span><i class="legend-swatch"></i>${t('common.notAnswered')}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const legacyContent = `
     <div class="quiz-card">
       <div class="quiz-meta">
         <span>${question.topicName}</span>
@@ -1082,17 +1137,18 @@ function renderQuestion() {
       ${subPointsHtml}
       <div class="option-list">
         ${question.options.map((option, index) => `
-          <button class="option-btn" data-choice="${index}" type="button">${option}</button>
+          <button class="option-btn ${sourceQuestion.selectedChoice === index ? 'selected' : ''}" data-choice="${index}" type="button" ${sourceQuestion.selectedChoice !== undefined ? 'disabled' : ''}>${option}</button>
         `).join('')}
       </div>
       <div class="explanation-box hidden"></div>
       <div class="quiz-footer">
-        <button class="btn btn-primary" id="nextQuestionBtn" type="button" disabled>
+        <button class="btn btn-primary" id="nextQuestionBtn" type="button" ${sourceQuestion.selectedChoice === undefined ? 'disabled' : ''}>
           ${questionNumber === state.quiz.questions.length ? t('common.finish') : t('common.next')}
         </button>
       </div>
     </div>
   `;
+  const content = isOfficialExam ? officialContent : legacyContent;
 
   elements.quizArea.innerHTML = content;
 
@@ -1100,13 +1156,46 @@ function renderQuestion() {
     button.addEventListener('click', () => handleAnswer(button, sourceQuestion));
   });
 
-  document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+  if (isOfficialExam) {
+    document.getElementById('previousQuestionBtn').addEventListener('click', () => {
+      if (state.quiz.currentIndex > 0) {
+        state.quiz.currentIndex -= 1;
+        renderQuestion();
+        document.getElementById('activeQuestionPrompt')?.focus();
+      }
+    });
+  }
+
+  const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+  nextQuestionBtn.addEventListener('click', () => {
     if (state.quiz.currentIndex < state.quiz.questions.length - 1) {
       state.quiz.currentIndex += 1;
       renderQuestion();
     } else {
+      if (isOfficialExam) {
+        const unansweredCount = state.quiz.questions.filter((item) => item.selectedChoice === undefined).length;
+        if (unansweredCount && !window.confirm(t('common.finishWithUnanswered'))) return;
+      }
       finishQuiz('All questions completed');
     }
+  });
+
+  if (isOfficialExam) elements.quizArea.querySelectorAll('[data-go-question]').forEach((button) => {
+    button.addEventListener('click', () => {
+      state.quiz.currentIndex = Number(button.dataset.goQuestion);
+      renderQuestion();
+      document.getElementById('activeQuestionPrompt')?.focus();
+    });
+
+    button.addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      const direction = event.key === 'ArrowRight' ? 1 : -1;
+      const nextIndex = (Number(button.dataset.goQuestion) + direction + state.quiz.questions.length) % state.quiz.questions.length;
+      state.quiz.currentIndex = nextIndex;
+      renderQuestion();
+      elements.quizArea.querySelector(`[data-go-question="${nextIndex}"]`)?.focus();
+    });
   });
 
   if (state.quiz.timed) {
@@ -1134,6 +1223,192 @@ function handleAnswer(button, question) {
   }
 
   nextBtn.disabled = false;
+  button.setAttribute('aria-pressed', 'true');
+
+  const answeredCount = state.quiz.questions.filter((item) => item.selectedChoice !== undefined).length;
+  const currentNavButton = elements.quizArea.querySelector(`[data-go-question="${state.quiz.currentIndex}"]`);
+  currentNavButton?.classList.add('is-answered');
+  currentNavButton?.setAttribute('aria-label', `${t('common.goToQuestion')} ${state.quiz.currentIndex + 1}: ${t('common.answered')}`);
+
+  elements.quizArea.querySelectorAll('.question-navigation-summary').forEach((summary) => {
+    summary.textContent = `${answeredCount}/${state.quiz.questions.length} ${t('common.answered')}`;
+  });
+
+  const toolbarStatus = elements.quizArea.querySelector('.exam-toolbar .quiz-meta span:last-child');
+  if (toolbarStatus) {
+    toolbarStatus.textContent = `${answeredCount} ${t('common.answered')}`;
+  }
+}
+
+function getReviewQuestionKey(question) {
+  return `${question.topicId || 'topic'}::${question.prompt}`;
+}
+
+function loadReviewBookmarks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(REVIEW_BOOKMARKS_KEY) || '[]');
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveReviewBookmarks(bookmarks) {
+  try {
+    localStorage.setItem(REVIEW_BOOKMARKS_KEY, JSON.stringify(bookmarks));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function renderReviewCard(question, source, index, bookmarked) {
+  const selectedAnswer = question.selectedChoice === undefined
+    ? t('common.notAnswered')
+    : question.options[question.selectedChoice];
+  const solutionSteps = [...(question.subPoints || []), question.explanation].filter(Boolean);
+  const distractors = question.options.map((option, optionIndex) => optionIndex === question.answer ? '' : `
+    <li><strong>${option}</strong><span>${t('review.optionMismatch')} ${question.options[question.answer]}.</span></li>
+  `).join('');
+  const thoughtId = `reviewThought-${source}-${index}`;
+
+  return `
+    <article class="mistake-item guided-review-card" data-review-source="${source}" data-review-index="${index}">
+      <div class="review-card-heading">
+        <div><span class="review-topic">${question.topicName}</span><p class="review-question">${question.prompt}</p></div>
+        <button class="review-bookmark ${bookmarked ? 'is-bookmarked' : ''}" type="button" data-review-bookmark aria-pressed="${bookmarked}">${t(bookmarked ? 'review.removeBookmark' : 'review.bookmark')}</button>
+      </div>
+      <p class="review-choice"><strong>${t('common.yourAnswer')}:</strong> ${selectedAnswer}</p>
+      <section class="review-gate" aria-labelledby="${thoughtId}-label">
+        <label class="review-prompt" id="${thoughtId}-label" for="${thoughtId}">${t('review.thinkingPrompt')}</label>
+        <textarea id="${thoughtId}" class="review-thought-input" data-review-thought rows="3" placeholder="${t('review.thinkingPlaceholder')}"></textarea>
+        <div class="review-gate-actions">
+          <button class="btn btn-primary" type="button" data-review-reveal disabled>${t('review.reveal')}</button>
+          <button class="btn btn-ghost" type="button" data-review-give-up>${t('review.giveUp')}</button>
+        </div>
+      </section>
+      <section class="review-content" data-review-content hidden>
+        <p class="review-student-thought" data-review-student-thought hidden><strong>${t('review.yourApproach')}:</strong> <span></span></p>
+        <div class="review-section">
+          <h4 tabindex="-1">${t('review.solutionSteps')}</h4>
+          <ol>${solutionSteps.map((step) => `<li>${step}</li>`).join('')}</ol>
+          <p><strong>${t('common.correctAnswer')}:</strong> ${question.options[question.answer]}</p>
+        </div>
+        <div class="review-section">
+          <h4>${t('review.otherOptions')}</h4>
+          <ul class="review-distractors">${distractors}</ul>
+          <p class="review-source-note">${t('review.optionNote')}</p>
+        </div>
+        <p class="review-trap"><strong>${t('review.commonTrapLabel')}:</strong> ${t('review.commonTrap')}</p>
+      </section>
+    </article>
+  `;
+}
+
+let savedReviewCache = [];
+let currentReviewKeys = new Set();
+
+function renderSavedReviewSection(excludedKeys = []) {
+  const excluded = new Set(excludedKeys);
+  savedReviewCache = loadReviewBookmarks().filter((question) => !excluded.has(question.reviewKey));
+  if (!savedReviewCache.length) return '';
+
+  return `
+    <section class="saved-review-section" aria-labelledby="savedReviewTitle">
+      <div class="review-list-heading"><h3 id="savedReviewTitle">${t('review.savedTitle')}</h3><span>${savedReviewCache.length}</span></div>
+      <div class="mistake-list">
+        ${savedReviewCache.map((question, index) => renderReviewCard(question, 'saved', index, true)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function persistReviewBookmark(question, shouldSave) {
+  const bookmarks = loadReviewBookmarks();
+  const existing = bookmarks.filter((item) => item.reviewKey !== question.reviewKey);
+  const nextBookmarks = shouldSave
+    ? [{
+        reviewKey: question.reviewKey,
+        topicId: question.topicId,
+        topicName: question.topicName,
+        prompt: question.prompt,
+        options: question.options,
+        answer: question.answer,
+        explanation: question.explanation,
+        subPoints: question.subPoints || [],
+        selectedChoice: question.selectedChoice
+      }, ...existing].slice(0, 100)
+    : existing;
+  return saveReviewBookmarks(nextBookmarks);
+}
+
+function bindReviewInteractions() {
+  if (!elements.resultsArea || elements.resultsArea.dataset.reviewBound) return;
+  elements.resultsArea.dataset.reviewBound = 'true';
+
+  elements.resultsArea.addEventListener('input', (event) => {
+    const thought = event.target.closest('[data-review-thought]');
+    if (!thought) return;
+    const revealButton = thought.closest('.review-gate').querySelector('[data-review-reveal]');
+    revealButton.disabled = !thought.value.trim();
+  });
+
+  elements.resultsArea.addEventListener('click', (event) => {
+    const revealButton = event.target.closest('[data-review-reveal], [data-review-give-up]');
+    if (revealButton) {
+      const card = revealButton.closest('.guided-review-card');
+      const thought = card.querySelector('[data-review-thought]').value.trim();
+      const studentThought = card.querySelector('[data-review-student-thought]');
+      if (thought) {
+        studentThought.querySelector('span').textContent = thought;
+        studentThought.hidden = false;
+      }
+      card.querySelector('[data-review-content]').hidden = false;
+      card.querySelector('.review-gate').hidden = true;
+      card.querySelector('.review-content h4')?.focus();
+      return;
+    }
+
+    const bookmarkButton = event.target.closest('[data-review-bookmark]');
+    if (!bookmarkButton) return;
+
+    const card = bookmarkButton.closest('.guided-review-card');
+    const source = card.dataset.reviewSource;
+    const index = Number(card.dataset.reviewIndex);
+    const question = source === 'saved' ? savedReviewCache[index] : state.reviewItems?.[index];
+    if (!question) return;
+
+    const shouldSave = bookmarkButton.getAttribute('aria-pressed') !== 'true';
+    if (!persistReviewBookmark(question, shouldSave)) {
+      bookmarkButton.textContent = t('review.bookmarkError');
+      return;
+    }
+
+    if (source === 'saved') {
+      const section = elements.resultsArea.querySelector('.saved-review-section');
+      if (section) section.outerHTML = renderSavedReviewSection([...currentReviewKeys]);
+      return;
+    }
+
+    bookmarkButton.setAttribute('aria-pressed', String(shouldSave));
+    bookmarkButton.classList.toggle('is-bookmarked', shouldSave);
+    bookmarkButton.textContent = t(shouldSave ? 'review.removeBookmark' : 'review.bookmark');
+    const section = elements.resultsArea.querySelector('.saved-review-section');
+    const markup = renderSavedReviewSection([...currentReviewKeys]);
+    if (section) {
+      section.outerHTML = markup || '';
+    } else if (markup) {
+      elements.resultsArea.querySelector('.result-box')?.insertAdjacentHTML('beforeend', markup);
+    }
+  });
+}
+
+function restoreSavedReviews() {
+  const bookmarks = loadReviewBookmarks();
+  if (!bookmarks.length || !elements.resultsArea) return;
+  currentReviewKeys = new Set();
+  elements.resultsArea.innerHTML = `<div class="result-box">${renderSavedReviewSection()}</div>`;
+  elements.resultsArea.classList.remove('hidden');
 }
 
 function finishQuiz(statusText) {
@@ -1150,9 +1425,13 @@ function finishQuiz(statusText) {
   const total = state.quiz.questions.length;
   const accuracy = total ? Math.round((state.quiz.correct / total) * 100) : 0;
   const elapsedSeconds = Math.max(1, Math.round((Date.now() - state.quiz.startedAt) / 1000));
-  const reviewQuestions = state.quiz.questions
-    .filter((question) => question.selectedChoice !== question.answer)
-    .map(localizeQuestion);
+  const reviewQuestions = state.quiz.questions.map((question) => ({
+      ...localizeQuestion(question),
+      reviewKey: getReviewQuestionKey(question)
+    }));
+  state.reviewItems = reviewQuestions;
+  currentReviewKeys = new Set(reviewQuestions.map((question) => question.reviewKey));
+  const bookmarks = loadReviewBookmarks();
 
   elements.resultsArea.innerHTML = `
     <div class="result-box">
@@ -1164,22 +1443,19 @@ function finishQuiz(statusText) {
         <p><strong>${t('common.wrong')}:</strong> ${state.quiz.wrong}</p>
         <p><strong>${t('common.time')}:</strong> ${formatDuration(elapsedSeconds)}</p>
       </div>
-      <div class="mistake-list">
-        ${reviewQuestions.map((question) => `
-          <div class="mistake-item">
-            <p><strong>${t('common.correction')}</strong> - ${question.topicName}</p>
-            <p>${question.prompt}</p>
-            <p>${t('common.yourAnswer')}: ${question.selectedChoice === undefined ? t('common.notAnswered') : question.options[question.selectedChoice]}</p>
-            <p>${t('common.correctAnswer')}: ${question.options[question.answer]}</p>
-            <p>${t('common.explanation')}: ${question.explanation}</p>
-          </div>
-        `).join('')}
-      </div>
+      <section class="guided-review-section" aria-labelledby="reviewQuestionsTitle">
+        <h3 id="reviewQuestionsTitle">${t('review.sectionTitle')}</h3>
+        ${reviewQuestions.length
+          ? `<div class="mistake-list">${reviewQuestions.map((question, index) => renderReviewCard(question, 'current', index, bookmarks.some((item) => item.reviewKey === question.reviewKey))).join('')}</div>`
+          : `<p class="review-empty-state">${t('review.noMistakes')}</p>`}
+      </section>
+      ${renderSavedReviewSection([...currentReviewKeys])}
     </div>
   `;
 
   elements.resultsArea.classList.remove('hidden');
   elements.quizArea.classList.add('hidden');
+  bindReviewInteractions();
 
   recordProgress();
   renderProgressOverview();
@@ -1342,6 +1618,27 @@ function bindFeedbackForm() {
   });
 }
 
+function bindLandingPrediction() {
+  const choices = document.getElementById('landingPredictionChoices');
+  const checkButton = document.getElementById('checkLandingAnswer');
+  const feedback = document.getElementById('landingFeedback');
+  if (!choices || !checkButton || !feedback) return;
+
+  checkButton.addEventListener('click', () => {
+    const selected = choices.querySelector('input:checked');
+    if (!selected) {
+      feedback.textContent = t('landing.chooseFirst');
+      feedback.className = 'landing-feedback';
+      choices.querySelector('input')?.focus();
+      return;
+    }
+
+    const isCorrect = selected.value === '2,3';
+    feedback.textContent = t(isCorrect ? 'landing.correct' : 'landing.tryAgain');
+    feedback.className = `landing-feedback ${isCorrect ? 'is-correct' : 'is-incorrect'}`;
+  });
+}
+
 function showAppView(targetId, shouldScroll = true) {
   const targetSection = document.querySelector(targetId);
   const viewSections = ['#materi', '#latihan'];
@@ -1398,6 +1695,18 @@ const settingsTranslations = {
     'nav.progress': 'Progress',
     'nav.feedback': 'Feedback',
     'nav.startLearning': 'Start Learning',
+    'landing.eyebrow': 'PK UTBK practice',
+    'landing.title': 'Practice PK. See the explanation after you try.',
+    'landing.description': 'Choose an answer first. Then review the solution steps and topic accuracy to decide what to practice next.',
+    'landing.exampleLabel': 'PK sample question',
+    'landing.exampleNumber': 'Example · 01',
+    'landing.question': 'The roots of x² - 5x + 6 = 0 are ...',
+    'landing.chooseAnswer': 'Choose your answer',
+    'landing.checkAnswer': 'Check my answer',
+    'landing.feedbackPrompt': 'Choose an answer first, then we can check the steps.',
+    'landing.chooseFirst': 'Choose one answer first, then we can check it together.',
+    'landing.correct': 'That is right. (x - 2)(x - 3) = 0, so the roots are 2 and 3.',
+    'landing.tryAgain': 'Not quite. Find two numbers that multiply to 6 and add to 5, then check their signs.',
     'hero.eyebrow': 'Grade 11 Mathematics',
     'hero.title': 'Complete PK and PM learning for UTBK preparation',
     'hero.description': 'EduLearn is a math learning platform that separates PK and PM topics, with detailed explanations, subtest questions, full-review exams, and progress tracking.',
@@ -1449,7 +1758,14 @@ const settingsTranslations = {
     'common.supportImage': 'Support image',
     'common.regionHint': 'The colored region shows the area that satisfies the problem constraints.',
     'common.next': 'Next',
+    'common.previous': 'Previous',
     'common.finish': 'Finish',
+    'common.finishWithUnanswered': 'Some questions are still unanswered. Finish anyway?',
+    'common.questionNavigation': 'Question navigation',
+    'common.questionStatus': 'Question status',
+    'common.currentQuestion': 'Current',
+    'common.goToQuestion': 'Go to question',
+    'common.answered': 'answered',
     'common.question': 'Question',
     'common.timeLeft': 'Time left',
     'common.examSummary': 'Overall exam summary',
@@ -1465,7 +1781,24 @@ const settingsTranslations = {
     'common.notAnswered': 'Not answered',
     'common.completed': 'All questions completed',
     'common.timeUp': 'Time is up',
-    'common.noQuestions': 'There are no questions for the selected difficulty.'
+    'common.noQuestions': 'There are no questions for the selected difficulty.',
+    'review.sectionTitle': 'Let’s go over the questions to revisit',
+    'review.thinkingPrompt': 'What do you think the first step is?',
+    'review.thinkingPlaceholder': 'Write a short thought, even if you are not sure yet.',
+    'review.reveal': 'Show explanation',
+    'review.giveUp': 'Not sure yet, show me',
+    'review.yourApproach': 'Your first thought',
+    'review.solutionSteps': 'Solution steps',
+    'review.otherOptions': 'Why the other options do not fit',
+    'review.optionMismatch': 'This does not match the result from the steps above. The answer that fits is',
+    'review.optionNote': 'The question data does not include a specific explanation for each distractor.',
+    'review.commonTrapLabel': 'Common thing to check',
+    'review.commonTrap': 'Recheck the sign, the value you substituted, and each step of the calculation before choosing.',
+    'review.bookmark': 'Review later',
+    'review.removeBookmark': 'Saved for review',
+    'review.bookmarkError': 'Could not save on this device',
+    'review.savedTitle': 'Saved to review later',
+    'review.noMistakes': 'No incorrect or unanswered questions to review this time.'
   },
   id: {
     'nav.topics': 'Topik',
@@ -1473,6 +1806,18 @@ const settingsTranslations = {
     'nav.progress': 'Progres',
     'nav.feedback': 'Masukan',
     'nav.startLearning': 'Mulai Belajar',
+    'landing.eyebrow': 'Latihan PK UTBK',
+    'landing.title': 'Latihan PK, dengan pembahasan setelah kamu mencoba.',
+    'landing.description': 'Pilih jawaban dulu. Setelah itu, lihat langkah penyelesaian dan akurasi per topik untuk menentukan latihan berikutnya.',
+    'landing.exampleLabel': 'Contoh soal PK',
+    'landing.exampleNumber': 'Contoh · 01',
+    'landing.question': 'Akar-akar dari x² - 5x + 6 = 0 adalah ...',
+    'landing.chooseAnswer': 'Pilih jawabanmu',
+    'landing.checkAnswer': 'Periksa jawaban',
+    'landing.feedbackPrompt': 'Pilih jawaban dulu, lalu kita cek langkahnya.',
+    'landing.chooseFirst': 'Pilih salah satu jawaban dulu, baru kita periksa bersama.',
+    'landing.correct': 'Tepat. (x - 2)(x - 3) = 0, jadi akar-akarnya 2 dan 3.',
+    'landing.tryAgain': 'Belum tepat. Cari dua angka yang hasil kalinya 6 dan jumlahnya 5, lalu periksa tandanya.',
     'hero.eyebrow': 'Matematika Kelas 11',
     'hero.title': 'Belajar PK dan PM lengkap untuk persiapan UTBK',
     'hero.description': 'EduLearn adalah platform belajar matematika yang memisahkan materi PK dan PM, dengan penjelasan detail, soal subtes, ujian lengkap, dan tracking progres.',
@@ -1524,7 +1869,14 @@ const settingsTranslations = {
     'common.supportImage': 'Gambar pendukung',
     'common.regionHint': 'Daerah berwarna menunjukkan area yang memenuhi kendala soal.',
     'common.next': 'Lanjut',
+    'common.previous': 'Sebelumnya',
     'common.finish': 'Selesai',
+    'common.finishWithUnanswered': 'Masih ada soal yang belum dijawab. Selesaikan ujian sekarang?',
+    'common.questionNavigation': 'Navigasi soal',
+    'common.questionStatus': 'Status soal',
+    'common.currentQuestion': 'Sedang dibuka',
+    'common.goToQuestion': 'Ke soal',
+    'common.answered': 'terjawab',
     'common.question': 'Soal',
     'common.timeLeft': 'Waktu tersisa',
     'common.examSummary': 'Ringkasan ujian keseluruhan',
@@ -1540,7 +1892,24 @@ const settingsTranslations = {
     'common.notAnswered': 'Tidak dijawab',
     'common.completed': 'Semua soal selesai',
     'common.timeUp': 'Waktu habis',
-    'common.noQuestions': 'Belum ada soal untuk tingkat kesulitan yang dipilih.'
+    'common.noQuestions': 'Belum ada soal untuk tingkat kesulitan yang dipilih.',
+    'review.sectionTitle': 'Yuk, bahas lagi soal-soal ini',
+    'review.thinkingPrompt': 'Menurutmu, langkah pertama apa?',
+    'review.thinkingPlaceholder': 'Tulis pemikiran singkatmu, tidak harus yakin dulu.',
+    'review.reveal': 'Buka pembahasan',
+    'review.giveUp': 'Belum tahu, buka pembahasan',
+    'review.yourApproach': 'Pemikiran awalmu',
+    'review.solutionSteps': 'Langkah penyelesaian',
+    'review.otherOptions': 'Kenapa opsi lain tidak cocok',
+    'review.optionMismatch': 'Belum sesuai dengan hasil dari langkah di atas. Jawaban yang cocok adalah',
+    'review.optionNote': 'Data soal belum menyertakan alasan khusus untuk setiap opsi pengecoh.',
+    'review.commonTrapLabel': 'Hal yang sering terlewat',
+    'review.commonTrap': 'Cek lagi tanda, nilai yang kamu masukkan, dan setiap langkah hitung sebelum memilih.',
+    'review.bookmark': 'Tandai untuk diulang',
+    'review.removeBookmark': 'Tersimpan untuk diulang',
+    'review.bookmarkError': 'Tidak bisa disimpan di perangkat ini',
+    'review.savedTitle': 'Tersimpan untuk diulang nanti',
+    'review.noMistakes': 'Tidak ada soal salah atau belum dijawab untuk dibahas kali ini.'
   }
 };
 
@@ -1672,9 +2041,12 @@ function initialize() {
   renderProgressOverview();
   bindEvents();
   bindFeedbackForm();
+  bindLandingPrediction();
   bindCtaLinks();
   bindSettings();
   applySettings();
+  restoreSavedReviews();
+  bindReviewInteractions();
 }
 
 initialize();
